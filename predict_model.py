@@ -76,7 +76,8 @@ def cleaning_data(df):
 
     return df
 
-def Correlation_matrice(df):
+# Correlation matrix to determine which variable to use for the prediction models
+def Correlation_matrix(df):
     correlation = df[['BEDS', 'PRICE', 'PROPERTYSQFT', 'BATH']].corr()
     plt.figure(figsize=(8, 6))
     sns.heatmap(correlation, annot=True, cmap='coolwarm')
@@ -88,11 +89,22 @@ def Matias():
     print('Fonction de Matias exécutée')
     pass
 
+def Tiphaine():
+    # Tiphaine's code here
+    print('Fonction de Tiphaine exécutée')
+    pass
+
+def Julien():
+    # Julien's code here
+    print('Fonction de Julien exécutée')
+    pass
+
+# Minsoo and Manon's Linear Regression
 def Linear_Regression(df):
-    ### Manon
     global model_linear, model_poly, poly_transformer
+
     # -------------------- Linear regression --------------------
-    X = df[['PROPERTYSQFT']]
+    X = df[['PROPERTYSQFT', 'BEDS', 'BATH']]
     y = df['PRICE']
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -109,9 +121,10 @@ def Linear_Regression(df):
     r2 = r2_score(y_test, y_pred)
 
     print(f"MSE: {mse}, R2: {r2}")
+    # Including 'BEDS' and 'BATH' features have improved the model (R² higher)
 
-    # -------------------- Polynomial variation --------------------
-    poly_transformer = PolynomialFeatures(degree=2)  # Second degree
+    # -------------------- Polynomial variation in Third degree --------------------
+    poly_transformer = PolynomialFeatures(degree=2)  # Third degree
     X_poly = poly_transformer.fit_transform(X)
 
     X_train_poly, X_test_poly, y_train, y_test = train_test_split(X_poly, y, test_size=0.2, random_state=42)
@@ -128,39 +141,32 @@ def Linear_Regression(df):
     r2_poly = r2_score(y_test, y_pred_poly)
 
     print(f"MSE with polynomial characteristics: {mse_poly}, R2: {r2_poly}")
-
     # The polynomial variation have improved the model (R² higher)
+
     return model_linear, model_poly, poly_transformer
-
-def Tiphaine():
-    # Tiphaine's code here
-    print('Fonction de Tiphaine exécutée')
-    pass
-
-def Julien():
-    # Julien's code here
-    print('Fonction de Julien exécutée')
-    pass
-
-def Minsoo():
-    #Minsoo's code here
-    print("Minsoo's function is working")
-    pass
 
 @app.route('/predict', methods=['GET'])
 def predict():
-    property_sqft = request.args.get('propertySqft', default=0, type=float)
-    # Prédiction linéaire
-    prediction_linear = model_linear.predict([[property_sqft]])
-    # Prédiction polynomiale
-    X_poly = poly_transformer.transform([[property_sqft]])
-    prediction_poly = model_poly.predict(X_poly)
+    property_sqft = float(request.args.get('propertySqft', 0))
+    beds = int(request.args.get('beds', 0))
+    bath = int(request.args.get('bath', 0))
+    features = np.array([[property_sqft, beds, bath]])
+    print(features)
 
-    # Format de la réponse
+    # Linear Prediction
+    prediction_linear = model_linear.predict(features)[0]
+    
+    # Polynomial linear Prediction
+    features_poly = poly_transformer.transform(features)
+    prediction_poly = model_poly.predict(features_poly)[0]
+
+    # Format and send response
     response = {
         'propertySqft': property_sqft,
-        'predictedPriceLinear': prediction_linear[0],
-        'predictedPricePoly': prediction_poly[0]
+        'beds': beds,
+        'bath': bath,
+        'predictedPriceLinear': prediction_linear,
+        'predictedPricePoly': prediction_poly
     }
     return jsonify(response)
 
@@ -170,17 +176,15 @@ def main():
     
     if choix == 'Matias':
         Matias()
-    elif choix == 'Manon':
+    elif choix == 'Linear Regression':
         model_linear, model_poly, poly_transformer = Linear_Regression(df)
         app.run(debug=True)
     elif choix == 'Tiphaine':
         Tiphaine()
     elif choix == 'Julien':
         Julien()
-    elif choix == 'Minsoo':
-        Minsoo()
     elif choix == 'corr':
-        Correlation_matrice(df)
+        Correlation_matrix(df)
     else:
         print("Choice not recognized. Please enter a valid name.")
 
