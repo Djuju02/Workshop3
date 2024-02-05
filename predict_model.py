@@ -138,8 +138,46 @@ def Julien():
     pass
 
 def Minsoo():
-    #Minsoo's code here
-    print("Minsoo's function is working")
+    # -------------------- Linear regression --------------------
+    X = df[['PROPERTYSQFT', 'BEDS', 'BATH']]
+    y = df['PRICE']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    #Construction of the model
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+
+    #Test prediction
+    y_pred = model.predict(X_test)
+
+    #Evaluation
+    mse = mean_squared_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+
+    print(f"MSE: {mse}, R2: {r2}")
+    # Including 'BEDS' and 'BATH' features have improved the model (R² higher)
+
+    # -------------------- Polynomial variation in Third degree --------------------
+    poly = PolynomialFeatures(degree=2)  # Third degree
+    X_poly = poly.fit_transform(X)
+
+    X_train_poly, X_test_poly, y_train, y_test = train_test_split(X_poly, y, test_size=0.2, random_state=42)
+
+    #Model construction
+    model_poly = LinearRegression()
+    model_poly.fit(X_train_poly, y_train)
+
+    # Prediction
+    y_pred_poly = model_poly.predict(X_test_poly)
+
+    # Evaluation
+    mse_poly = mean_squared_error(y_test, y_pred_poly)
+    r2_poly = r2_score(y_test, y_pred_poly)
+
+    print(f"MSE with polynomial characteristics: {mse_poly}, R2: {r2_poly}")
+    # The polynomial variation have improved the model (R² higher)
+    
     pass
 
 def main():
