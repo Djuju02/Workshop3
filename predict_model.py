@@ -85,6 +85,8 @@ def cleaning_data(df):
     df.loc[df['BATH'] > max_limit_bath, 'BATH'] = max_limit_bath
     df.loc[df['BATH'] < min_limit_bath, 'BATH'] = min_limit_bath
 
+    return df
+
 def Matias():
     # Matias' code here
     print('Fonction de Matias exécutée')
@@ -130,7 +132,7 @@ def main():
 if __name__ == "__main__":
     try:
         df = pd.read_csv('archive/NY-House-Dataset.csv', sep=',')
-        cleaning_data(df)
+        df = cleaning_data(df)
         print(df)
     except FileNotFoundError:
         print("File not found. Please check the path.")
