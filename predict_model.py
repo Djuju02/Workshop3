@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 import statistics
+from flask import Flask, request, jsonify
 
 from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 
@@ -11,6 +12,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
 from sklearn.tree import DecisionTreeRegressor, plot_tree
+
+app = Flask(__name__)
 
 #--------------- Cleaning data ---------------
 def cleaning_data(df):
@@ -85,7 +88,9 @@ def Matias():
     print('Fonction de Matias exécutée')
     pass
 
-def Manon():
+def Linear_Regression(df):
+    ### Manon
+    global model_linear, model_poly, poly_transformer
     # -------------------- Linear regression --------------------
     X = df[['PROPERTYSQFT']]
     y = df['PRICE']
@@ -93,11 +98,11 @@ def Manon():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     #Construction of the model
-    model = LinearRegression()
-    model.fit(X_train, y_train)
+    model_linear = LinearRegression()
+    model_linear.fit(X_train, y_train)
 
     #Test prediction
-    y_pred = model.predict(X_test)
+    y_pred = model_linear.predict(X_test)
 
     #Evaluation
     mse = mean_squared_error(y_test, y_pred)
@@ -106,8 +111,8 @@ def Manon():
     print(f"MSE: {mse}, R2: {r2}")
 
     # -------------------- Polynomial variation --------------------
-    poly = PolynomialFeatures(degree=2)  # Second degree
-    X_poly = poly.fit_transform(X)
+    poly_transformer = PolynomialFeatures(degree=2)  # Second degree
+    X_poly = poly_transformer.fit_transform(X)
 
     X_train_poly, X_test_poly, y_train, y_test = train_test_split(X_poly, y, test_size=0.2, random_state=42)
 
@@ -125,7 +130,7 @@ def Manon():
     print(f"MSE with polynomial characteristics: {mse_poly}, R2: {r2_poly}")
 
     # The polynomial variation have improved the model (R² higher)
-    pass
+    return model_linear, model_poly, poly_transformer
 
 def Tiphaine():
     # Tiphaine's code here
@@ -142,6 +147,23 @@ def Minsoo():
     print("Minsoo's function is working")
     pass
 
+@app.route('/predict', methods=['GET'])
+def predict():
+    property_sqft = request.args.get('propertySqft', default=0, type=float)
+    # Prédiction linéaire
+    prediction_linear = model_linear.predict([[property_sqft]])
+    # Prédiction polynomiale
+    X_poly = poly_transformer.transform([[property_sqft]])
+    prediction_poly = model_poly.predict(X_poly)
+
+    # Format de la réponse
+    response = {
+        'propertySqft': property_sqft,
+        'predictedPriceLinear': prediction_linear[0],
+        'predictedPricePoly': prediction_poly[0]
+    }
+    return jsonify(response)
+
 def main():
     # Ask the user which function to execute
     choix = input("Which function do you want to execute ? (Matias, Manon, Tiphaine, Julien, Minsoo, corr): ")
@@ -149,7 +171,8 @@ def main():
     if choix == 'Matias':
         Matias()
     elif choix == 'Manon':
-        Manon()
+        model_linear, model_poly, poly_transformer = Linear_Regression(df)
+        app.run(debug=True)
     elif choix == 'Tiphaine':
         Tiphaine()
     elif choix == 'Julien':
