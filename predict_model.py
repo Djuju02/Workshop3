@@ -82,8 +82,20 @@ def Correlation_matrice(df):
 
 def Matias():
     # Matias' code here
-    print('Fonction de Matias exécutée')
-    pass
+    global df
+
+    X = df[['BEDS', 'BATH', 'PROPERTYSQFT']]  # Features
+    y = df['PRICE']  # Target variable
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    reg = DecisionTreeRegressor(random_state=42)
+    reg.fit(X_train, y_train)
+
+    y_pred = reg.predict(X_test)
+
+    mse = mean_squared_error(y_test, y_pred)
+    print("Mean Squared Error: ", mse)
 
 def Manon():
     # -------------------- Linear regression --------------------
@@ -134,8 +146,39 @@ def Tiphaine():
 
 def Julien():
     # Julien's code here
-    print('Fonction de Julien exécutée')
-    pass
+    # -------------------- Decision Tree Regression --------------------
+    # Utilisation des mêmes données X et y pour la cohérence
+    # Supposons que Julien travaille également avec 'PROPERTYSQFT' pour prédire 'PRICE'
+    X = df[['PROPERTYSQFT']]  # Assurez-vous que 'df' est accessible
+    y = df['PRICE']
+
+    # Séparation des données en ensembles d'entraînement et de test
+    X_train_tree, X_test_tree, y_train_tree, y_test_tree = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Construction et entraînement du modèle, etc.
+    # ...
+
+    X_train_tree, X_test_tree, y_train_tree, y_test_tree = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Construction du modèle d'arbre de décision
+    model_tree = DecisionTreeRegressor(random_state=42)
+    model_tree.fit(X_train_tree, y_train_tree)
+
+    # Prédiction avec le modèle d'arbre de décision
+    y_pred_tree = model_tree.predict(X_test_tree)
+
+    # Evaluation du modèle d'arbre de décision
+    mse_tree = mean_squared_error(y_test_tree, y_pred_tree)
+    r2_tree = r2_score(y_test_tree, y_pred_tree)
+
+    print(f"MSE with Decision Tree: {mse_tree}, R2: {r2_tree}")
+
+    # Optionnel: Afficher l'arbre de décision
+    # Remarque: Pour les grands arbres, cette visualisation peut être difficile à interpréter
+    plt.figure(figsize=(20,10))
+    plot_tree(model_tree, filled=True, feature_names=['PROPERTYSQFT'], max_depth=3)
+    plt.title('Decision Tree - First 3 Levels')
+    plt.show()
 
 def Minsoo():
     #Minsoo's code here
@@ -164,10 +207,10 @@ def main():
 if __name__ == "__main__":
     try:
         df = pd.read_csv('archive/NY-House-Dataset.csv', sep=',')
-        df = cleaning_data(df)
+        df = df.copy()  # Faites une copie du DataFrame pour éviter les modifications sur la vue
+        df = cleaning_data(df)  # Appel de la fonction de nettoyage
         print(df)
     except FileNotFoundError:
         print("File not found. Please check the path.")
     
     main()
-
