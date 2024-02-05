@@ -12,22 +12,47 @@ from sklearn.metrics import mean_squared_error
 
 from sklearn.tree import DecisionTreeRegressor, plot_tree
 
-#Data importation
-df = pd.read_csv('archive/NY-House-Dataset.csv', sep=',')
-print(df)
-
-#------------Part of Matias------------
 def Matias():
-    print('alacon')
+    # Votre code pour Matias ici
+    print('Fonction de Matias exécutée')
+    pass
 
-#------------Part of Manon------------
 def Manon():
-    print('alacon')
+    # Votre code pour Manon ici
+    print('Fonction de Manon exécutée')
+    pass
 
-#------------Part of Tiphaine------------
 def Tiphaine():
-    print('alacon')
+    # Votre code pour Tiphaine ici
+    print('Fonction de Tiphaine exécutée')
+    pass
 
-#------------Part of Julien------------
 def Julien():
-    print('alacon')
+    # Votre code pour Julien ici
+    print('Fonction de Julien exécutée')
+    pass
+
+def main():
+    # Demander à l'utilisateur quelle fonction exécuter
+    choix = input("Quelle fonction voulez-vous exécuter ? (Matias, Manon, Tiphaine, Julien): ")
+    
+    if choix == 'Matias':
+        Matias()
+    elif choix == 'Manon':
+        Manon()
+    elif choix == 'Tiphaine':
+        Tiphaine()
+    elif choix == 'Julien':
+        Julien()
+    else:
+        print("Choix non reconnu. Veuillez entrer un nom valide.")
+
+if __name__ == "__main__":
+    # Importation des données dans le bloc principal pour éviter l'exécution lors des importations
+    try:
+        df = pd.read_csv('archive/NY-House-Dataset.csv', sep=',')
+        print(df)
+    except FileNotFoundError:
+        print("Fichier non trouvé. Veuillez vérifier le chemin.")
+    
+    main()
