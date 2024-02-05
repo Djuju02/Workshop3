@@ -14,18 +14,20 @@ from sklearn.tree import DecisionTreeRegressor, plot_tree
 
 #Data importation
 df = pd.read_csv('archive/NY-House-Dataset.csv', sep=',')
+print(df)
 
-#------------Part of Mathias------------
+#------------Part of Matias------------
 def Matias():
-
+    print('alacon')
 
 #------------Part of Manon------------
 def Manon():
-
+    print('alacon')
 
 #------------Part of Tiphaine------------
 def Tiphaine():
-
+    print('alacon')
 
 #------------Part of Julien------------
 def Julien():
+    print('alacon')
