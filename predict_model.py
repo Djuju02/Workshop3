@@ -19,23 +19,6 @@ def cleaning_data(df):
     df = df.drop_duplicates()
     print(df.duplicated().any())
 
-    # Visualise Outliers
-    fig, axes = plt.subplots(nrows=1, ncols=4, figsize=(20, 5))
-
-    df[['PRICE']].boxplot(ax=axes[0])
-    axes[0].set_title('PRICE')
-
-    df[['BEDS']].boxplot(ax=axes[1])
-    axes[1].set_title('BEDS')
-
-    df[['BATH']].boxplot(ax=axes[2])
-    axes[2].set_title('BATH')
-
-    df[['PROPERTYSQFT']].boxplot(ax=axes[3])
-    axes[3].set_title('PROPERTYSQFT')
-
-    plt.show()
-
     # Manage Outliers
     #Outliers for PRICE
     q1 = df['PRICE'].quantile(0.25)
@@ -85,7 +68,17 @@ def cleaning_data(df):
     df.loc[df['BATH'] > max_limit_bath, 'BATH'] = max_limit_bath
     df.loc[df['BATH'] < min_limit_bath, 'BATH'] = min_limit_bath
 
+    # Converting the squared feet into squared meters
+    df.loc[:, 'PROPERTYSQFT'] = df['PROPERTYSQFT'] * 0.092903
+
     return df
+
+def Correlation_matrice(df):
+    correlation = df[['BEDS', 'PRICE', 'PROPERTYSQFT', 'BATH']].corr()
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(correlation, annot=True, cmap='coolwarm')
+    plt.title('Correlation Matrice')
+    plt.show()
 
 def Matias():
     # Matias' code here
@@ -114,7 +107,7 @@ def Minsoo():
 
 def main():
     # Ask the user which function to execute
-    choix = input("Which function do you want to execute ? (Matias, Manon, Tiphaine, Julien, Minsoo): ")
+    choix = input("Which function do you want to execute ? (Matias, Manon, Tiphaine, Julien, Minsoo, corr): ")
     
     if choix == 'Matias':
         Matias()
@@ -126,6 +119,8 @@ def main():
         Julien()
     elif choix == 'Minsoo':
         Minsoo()
+    elif choix == 'corr':
+        Correlation_matrice(df)
     else:
         print("Choice not recognized. Please enter a valid name.")
 
