@@ -80,9 +80,9 @@ def Correlation_matrice(df):
     plt.title('Correlation Matrice')
     plt.show()
 
+
+#------------Part of Matias------------
 def Matias():
-    # Matias' code here
-    global df
 
     X = df[['BEDS', 'BATH', 'PROPERTYSQFT']]  # Features
     y = df['PRICE']  # Target variable
@@ -138,7 +138,7 @@ def Manon():
 
     # The polynomial variation have improved the model (R² higher)
     pass
-
+  
 def Tiphaine():
     # Tiphaine's code here
     print('Fonction de Tiphaine exécutée')
