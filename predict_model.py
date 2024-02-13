@@ -77,16 +77,16 @@ def cleaning_data(df):
     return df
 
 # Correlation matrix to determine which variable to use for the prediction models
-def Correlation_matrix(df):
+def Correlation_matrix():
     correlation = df[['BEDS', 'PRICE', 'PROPERTYSQFT', 'BATH']].corr()
     plt.figure(figsize=(8, 6))
     sns.heatmap(correlation, annot=True, cmap='coolwarm')
     plt.title('Correlation Matrice')
     plt.show()
 
-
-#------------Part of Matias------------
+# -------------------- Distinct and Different Models --------------------
 def Matias():
+    # -------------------- Decision Tree Regression --------------------
     X = df[['BEDS', 'BATH', 'PROPERTYSQFT']]  # Features
     y = df['PRICE']  # Target variable
 
@@ -99,93 +99,7 @@ def Matias():
 
     mse = mean_squared_error(y_test, y_pred)
     print("Mean Squared Error: ", mse)
-
-def Tiphaine():
-    # Tiphaine's code here
-    print('Fonction de Tiphaine exécutée')
-    pass
-
-def Julien():
-    # Julien's code here
-    print('Fonction de Julien exécutée')
-    pass
-
-# Minsoo and Manon's Linear Regression
-def Linear_Regression(df):
-    global model_linear, model_poly, poly_transformer
-
-    # -------------------- Linear regression --------------------
-    X = df[['PROPERTYSQFT', 'BEDS', 'BATH']]
-    y = df['PRICE']
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    #Construction of the model
-    model_linear = LinearRegression()
-    model_linear.fit(X_train, y_train)
-
-    #Test prediction
-    y_pred = model_linear.predict(X_test)
-
-    #Evaluation
-    mse = mean_squared_error(y_test, y_pred)
-    r2 = r2_score(y_test, y_pred)
-
-    print(f"MSE: {mse}, R2: {r2}")
-    # Including 'BEDS' and 'BATH' features have improved the model (R² higher)
-
-    # -------------------- Polynomial variation in Third degree --------------------
-    poly_transformer = PolynomialFeatures(degree=2)  # Third degree
-    X_poly = poly_transformer.fit_transform(X)
-
-    X_train_poly, X_test_poly, y_train, y_test = train_test_split(X_poly, y, test_size=0.2, random_state=42)
-
-    #Model construction
-    model_poly = LinearRegression()
-    model_poly.fit(X_train_poly, y_train)
-
-    # Prediction
-    y_pred_poly = model_poly.predict(X_test_poly)
-
-    # Evaluation
-    mse_poly = mean_squared_error(y_test, y_pred_poly)
-    r2_poly = r2_score(y_test, y_pred_poly)
-
-    print(f"MSE with polynomial characteristics: {mse_poly}, R2: {r2_poly}")
-    # The polynomial variation have improved the model (R² higher)
-
-    return model_linear, model_poly, poly_transformer
-
-@app.route('/predict', methods=['GET'])
-def predict():
-    property_sqft = float(request.args.get('propertySqft', 0))
-    beds = int(request.args.get('beds', 0))
-    bath = int(request.args.get('bath', 0))
-    features = np.array([[property_sqft, beds, bath]])
-    print(features)
-
-    # Linear Prediction
-    prediction_linear = model_linear.predict(features)[0]
     
-    # Polynomial linear Prediction
-    features_poly = poly_transformer.transform(features)
-    prediction_poly = model_poly.predict(features_poly)[0]
-
-    # Format and send response
-    response = {
-        'propertySqft': property_sqft,
-        'beds': beds,
-        'bath': bath,
-        'predictedPriceLinear': prediction_linear,
-        'predictedPricePoly': prediction_poly
-    }
-    return jsonify(response)
-  
-def Tiphaine():
-    # Tiphaine's code here
-    print('Fonction de Tiphaine exécutée')
-    pass
-
 def Julien():
     # Julien's code here
     # -------------------- Decision Tree Regression --------------------
@@ -220,21 +134,97 @@ def Julien():
     plt.title('Decision Tree - First 3 Levels')
     plt.show()
 
+# Minsoo and Manon's Linear Regression
+def Linear_Regression():
+    global model_linear, model_poly, poly_transformer
+
+    # -------------------- Linear regression --------------------
+    X = df[['PROPERTYSQFT', 'BEDS', 'BATH']]
+    y = df['PRICE']
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    #Construction of the model
+    model_linear = LinearRegression()
+    model_linear.fit(X_train, y_train)
+
+    #Test prediction
+    y_pred = model_linear.predict(X_test)
+
+    #Evaluation
+    mse = mean_squared_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+
+    print(f"MSE: {mse}, R2: {r2}")
+    # Including 'BEDS' and 'BATH' features have improved the model (R² higher)
+
+    # -------------------- Polynomial variation in Third degree --------------------
+    poly_transformer = PolynomialFeatures(degree=2)
+    X_poly = poly_transformer.fit_transform(X)
+
+    X_train_poly, X_test_poly, y_train, y_test = train_test_split(X_poly, y, test_size=0.2, random_state=42)
+
+    #Model construction
+    model_poly = LinearRegression()
+    model_poly.fit(X_train_poly, y_train)
+
+    # Prediction
+    y_pred_poly = model_poly.predict(X_test_poly)
+
+    # Evaluation
+    mse_poly = mean_squared_error(y_test, y_pred_poly)
+    r2_poly = r2_score(y_test, y_pred_poly)
+
+    print(f"MSE with polynomial characteristics: {mse_poly}, R2: {r2_poly}")
+    # The polynomial variation have improved the model (R² higher)
+
+    return model_linear, model_poly, poly_transformer
+  
+def Tiphaine():
+    # Tiphaine's code here
+    print('Fonction de Tiphaine exécutée')
+    pass
+    
+@app.route('/predict', methods=['GET'])
+def predict():
+    property_sqft = float(request.args.get('propertySqft', 0))
+    beds = int(request.args.get('beds', 0))
+    bath = int(request.args.get('bath', 0))
+    features = np.array([[property_sqft, beds, bath]])
+    print(features)
+
+    # Linear Prediction
+    prediction_linear = model_linear.predict(features)[0]
+    
+    # Polynomial linear Prediction
+    features_poly = poly_transformer.transform(features)
+    prediction_poly = model_poly.predict(features_poly)[0]
+
+    # Format and send response
+    response = {
+        'propertySqft': property_sqft,
+        'beds': beds,
+        'bath': bath,
+        'predictedPriceLinear': prediction_linear,
+        'predictedPricePoly': prediction_poly
+    }
+    return jsonify(response)
+
 def main():
     # Ask the user which function to execute
-    choix = input("Which function do you want to execute ? (Matias, Manon, Tiphaine, Julien, Minsoo, corr): ")
+    choix = input("Which function do you want to execute ? (Matias, Julien, Linear Regression, Tiphaine, corr): ")
     
     if choix == 'Matias':
         Matias()
+    elif choix == 'Julien':
+        Julien()
     elif choix == 'Linear Regression':
-        model_linear, model_poly, poly_transformer = Linear_Regression(df)
+        model_linear, model_poly, poly_transformer = Linear_Regression()
         app.run(debug=True)
     elif choix == 'Tiphaine':
         Tiphaine()
-    elif choix == 'Julien':
-        Julien()
     elif choix == 'corr':
-        Correlation_matrix(df)
+        Correlation_matrix()
     else:
         print("Choice not recognized. Please enter a valid name.")
 
