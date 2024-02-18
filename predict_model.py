@@ -99,6 +99,7 @@ def Matias():
 
     mse = mean_squared_error(y_test, y_pred)
     print("Mean Squared Error: ", mse)
+    return mse
     
 def Julien():
     # Julien's code here
@@ -133,6 +134,8 @@ def Julien():
     plot_tree(model_tree, filled=True, feature_names=['PROPERTYSQFT'], max_depth=3)
     plt.title('Decision Tree - First 3 Levels')
     plt.show()
+    mse = mse_tree
+    return mse
 
 # Minsoo and Manon's Linear Regression
 def Linear_Regression():
@@ -178,12 +181,8 @@ def Linear_Regression():
     print(f"MSE with polynomial characteristics: {mse_poly}, R2: {r2_poly}")
     # The polynomial variation have improved the model (R² higher)
 
-    return model_linear, model_poly, poly_transformer
-  
-def Tiphaine():
-    # Tiphaine's code here
-    print('Fonction de Tiphaine exécutée')
-    pass
+    #return model_linear, model_poly, poly_transformer, mse, mse_poly
+    return mse
     
 @app.route('/predict', methods=['GET'])
 def predict():
@@ -227,6 +226,19 @@ def main():
         Correlation_matrix()
     else:
         print("Choice not recognized. Please enter a valid name.")
+    
+    # Call each model's prediction function
+    prediction_matias = Matias()
+    prediction_julien = Julien()
+    prediction_linear = Linear_Regression()
+
+    # Calculate average prediction
+    average_prediction = (prediction_matias + prediction_julien + prediction_linear) / 3
+    print(average_prediction)
+    
+    return average_prediction
+        
+    
 
 if __name__ == "__main__":
     try:
