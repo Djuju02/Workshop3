@@ -1,38 +1,39 @@
-import { Sequelize, Model, DataTypes } from 'sequelize';
+const { Sequelize, Model, DataTypes} = require("sequelize");
 
 // Configuration de Sequelize
 const sequelize = new Sequelize('decentralization_workshop3', 'decentralization_user', 'Password01', {
     host: 'localhost',
-    dialect: 'postgres'
+    dialect: 'postgres',
+    logging: console.log
 });
 
 //Class Products
 class Products extends Model {}
 Products.init(
     {
-        ProductID: {
+        productid: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
             autoIncrement: true,
         },
-        Name: {
+        name: {
             type: DataTypes.STRING(100),
         },
-        Description: {
+        description: {
             type: DataTypes.STRING(500),
         },
-        Price: {
-            type: DataTypes.DECIMAL,
+        price: {
+            type: DataTypes.DECIMAL(10, 2),
         },
-        StockQuantity: {
+        stockquantity: {
             type: DataTypes.INTEGER,
         },
     },
     {
         sequelize,
-        modelName: 'Product',
-        tableName: 'Products',
+        modelName: 'product',
+        tableName: 'products',
         timestamps: false,
     }
 );
@@ -41,38 +42,38 @@ Products.init(
 class Customers extends Model {}
 Customers.init(
     {
-        CustomerID: {
+        customerid: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
             autoIncrement: true,
         },
-        FirstName: {
+        firstname: {
             type: DataTypes.STRING(50),
         },
-        LastName: {
+        lastname: {
             type: DataTypes.STRING(50),
         },
-        Email: {
+        email: {
             type: DataTypes.STRING(100),
         },
-        Address: {
+        address: {
             type: DataTypes.STRING(255),
         },
-        City: {
+        city: {
             type: DataTypes.STRING(100),
         },
-        PostalCode: {
+        postalcode: {
             type: DataTypes.STRING(20),
         },
-        Country: {
+        country: {
             type: DataTypes.STRING(100),
         },
     },
     {
         sequelize,
-        modelName: 'Customer',
-        tableName: 'Customers',
+        modelName: 'customer',
+        tableName: 'customers',
         timestamps: false,
     }
 );
@@ -81,29 +82,26 @@ Customers.init(
 class Orders extends Model {}
 Orders.init(
     {
-        OrderID: {
+        orderid: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
             autoIncrement: true,
         },
-        CustomerID: {
+        customerid: {
             type: DataTypes.INTEGER,
         },
-        OrderDate: {
+        orderdate: {
             type: DataTypes.DATE,
         },
-        LastName: {
-            type: DataTypes.STRING(50),
-        },
-       TotalAmount: {
+        totalamount: {
             type: DataTypes.DECIMAL,
         },
     },
     {
         sequelize,
-        modelName: 'Order',
-        tableName: 'Orders',
+        modelName: 'order',
+        tableName: 'orders',
         timestamps: false,
     }
 );
@@ -112,33 +110,59 @@ Orders.init(
 class OrderDetails extends Model {}
 OrderDetails.init(
     {
-        OrderDetailID: {
+        orderdetailid: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
             autoIncrement: true,
         },
-        OrderID: {
+        orderid: {
             type: DataTypes.INTEGER,
         },
-        ProductID: {
+        productid: {
             type: DataTypes.INTEGER,
         },
-        Quantity: {
+        quantity: {
             type: DataTypes.INTEGER,
         },
-        Price: {
-            type: DataTypes.DECIMAL,
+        price: {
+            type: DataTypes.DECIMAL(10, 2),
         },
     },
     {
         sequelize,
-        modelName: 'OrderDetail',
-        tableName: 'OrderDetails',
+        modelName: 'orderdetail',
+        tableName: 'orderdetails',
         timestamps: false,
     }
 );
 
-sequelize.authenticate()
-    .then(() => console.log('Connection has been established successfully.'))
-    .catch(err => console.error('Unable to connect to the database:', err));
+Customers.hasMany(Orders, { foreignKey: 'customerid' });
+Orders.belongsTo(Customers, { foreignKey: 'customerid' });
+
+Orders.hasMany(OrderDetails, { foreignKey: 'orderid' });
+OrderDetails.belongsTo(Orders, { foreignKey: 'orderid' });
+
+Products.hasMany(OrderDetails, { foreignKey: 'productid' });
+OrderDetails.belongsTo(Products, { foreignKey: 'productid' });
+
+//Synchroniser les modèles avec la base de données
+async function syncModels() {
+    try {
+        await sequelize.authenticate();
+        console.log('Connecté à la base de données');
+
+        // Synchronise chaque modèle avec la base de données
+        await Customers.sync();
+        await Products.sync();
+        await Orders.sync();
+        await OrderDetails.sync();
+
+        console.log('Synchronisation réussie');
+    } catch (error) {
+        console.error('Erreur lors de la synchronisation avec la base de données:', error);
+    }
+}
+syncModels();
+
+module.exports = { Customers, Products, Orders, OrderDetails };
