@@ -12,18 +12,24 @@ in this part, every question is put in the main :
 
 here are the correspondance for the name of the files and the question numbers.
 
-Q1 Simple Hello World Serve
+## Q1 Simple Hello World Serve
 
-Q2 DNS Registry
+## Q2 DNS Registry
 
-Q3 Database Implementation
+## Q3 Database Implementation
 
-Q4 Modify Server Implementation for API Requirements
+### Database creation :
 
-Q5 Simple Frontend
+We chose to make a PostgreSQL database. For that, we used pgadmin.\
+We created  user "decentralization_user" and we created a database owned by this user : "decentralization_workshop3".
+In these, we implemented our two .sql files, CreaPark and InsPark.
 
-Q6 Simulate Server Issue and Fix
+## Q4 Modify Server Implementation for API Requirements
 
-Q7 Synchronous Mirroring
+## Q5 Simple Frontend
+
+## Q6 Simulate Server Issue and Fix
+
+## Q7 Synchronous Mirroring
 
 Q8 Asynchronous Replication
