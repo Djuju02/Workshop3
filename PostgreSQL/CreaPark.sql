@@ -1,17 +1,17 @@
-DROP TABLE OrderDetails;
-DROP TABLE Orders;
-DROP TABLE Products;
-DROP TABLE Customers;
+DROP TABLE orderdetails;
+DROP TABLE orders;
+DROP TABLE products;
+DROP TABLE customers;
 
-CREATE TABLE Products (
-    ProductID SERIAL PRIMARY KEY,
-    Name VARCHAR(100) NOT NULL,
-    Description VARCHAR(500),
-    Price DECIMAL(10, 2) NOT NULL,
-    StockQuantity INT NOT NULL
+CREATE TABLE products (
+    productid SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(500),
+    price DECIMAL(10, 2) NOT NULL,
+    stockquantity INT NOT NULL
 );
 
-CREATE TABLE Customers (
+CREATE TABLE customers (
     CustomerID SERIAL PRIMARY KEY,
     FirstName VARCHAR(50) NOT NULL,
     LastName VARCHAR(50) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE Customers (
     Country VARCHAR(100)
 );
 
-CREATE TABLE Orders (
+CREATE TABLE orders (
     OrderID SERIAL PRIMARY KEY,
     CustomerID INT,
     OrderDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -30,7 +30,7 @@ CREATE TABLE Orders (
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
 );
 
-CREATE TABLE OrderDetails (
+CREATE TABLE orderdetails (
     OrderDetailID SERIAL PRIMARY KEY,
     OrderID INT,
     ProductID INT,
