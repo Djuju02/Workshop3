@@ -90,46 +90,30 @@ Orders.init(
         },
         customerid: {
             type: DataTypes.INTEGER,
+            references: {
+                model: 'customers',
+                key: 'customerid',
+            }
+        },
+        products: {
+            type: DataTypes.JSONB,
+        },
+        total_price: {
+            type: DataTypes.INTEGER,
+        },
+        status: {
+            type: DataTypes.STRING(50),
+            defaultValue: "Waiting for delivery",
         },
         orderdate: {
             type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
         },
     },
     {
         sequelize,
         modelName: 'order',
         tableName: 'orders',
-        timestamps: false,
-    }
-);
-
-//Class OrderDetails
-class OrderDetails extends Model {}
-OrderDetails.init(
-    {
-        orderdetailid: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            allowNull: false,
-            autoIncrement: true,
-        },
-        orderid: {
-            type: DataTypes.INTEGER,
-        },
-        productid: {
-            type: DataTypes.INTEGER,
-        },
-        quantity: {
-            type: DataTypes.INTEGER,
-        },
-        price: {
-            type: DataTypes.DECIMAL(10, 2),
-        },
-    },
-    {
-        sequelize,
-        modelName: 'orderdetail',
-        tableName: 'orderdetails',
         timestamps: false,
     }
 );
@@ -147,13 +131,10 @@ Cart.init(
         customerid: {
             type: DataTypes.INTEGER,
         },
-        productid: {
-            type: DataTypes.INTEGER,
+        sel_product: {
+            type: DataTypes.JSONB,
         },
-        quantity: {
-            type: DataTypes.INTEGER,
-        },
-        price: {
+        total: {
             type: DataTypes.DECIMAL(10, 2),
         },
     },
@@ -168,19 +149,9 @@ Cart.init(
 Customers.hasMany(Orders, { foreignKey: 'customerid' });
 Orders.belongsTo(Customers, { foreignKey: 'customerid' });
 
-Orders.hasMany(OrderDetails, { foreignKey: 'orderid' });
-OrderDetails.belongsTo(Orders, { foreignKey: 'orderid' });
-
-Products.hasMany(OrderDetails, { foreignKey: 'productid' });
-OrderDetails.belongsTo(Products, { foreignKey: 'productid' });
-
 // Un Customer peut avoir plusieurs Carts
 Customers.hasMany(Cart, { foreignKey: 'customerid' });
 Cart.belongsTo(Customers, { foreignKey: 'customerid' });
-
-// Un Product peut être référencé dans plusieurs Carts
-Products.hasMany(Cart, { foreignKey: 'productid' });
-Cart.belongsTo(Products, { foreignKey: 'productid' });
 
 //Synchroniser les modèles avec la base de données
 async function syncModels() {
@@ -192,7 +163,6 @@ async function syncModels() {
         await Customers.sync();
         await Products.sync();
         await Orders.sync();
-        await OrderDetails.sync();
         await Cart.sync();
 
         console.log('Synchronisation réussie');
@@ -202,4 +172,4 @@ async function syncModels() {
 }
 syncModels();
 
-module.exports = { Customers, Products, Orders, OrderDetails, Cart };
+module.exports = { Customers, Products, Orders, Cart };

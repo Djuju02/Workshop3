@@ -1,4 +1,3 @@
-DROP TABLE orderdetails;
 DROP TABLE cart;
 DROP TABLE orders;
 DROP TABLE products;
@@ -26,26 +25,17 @@ CREATE TABLE customers (
 CREATE TABLE orders (
     orderid SERIAL PRIMARY KEY,
     customerid INT,
+	products JSONB,
+	total_price DECIMAL(10, 2),
     orderdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	status VARCHAR(50) DEFAULT 'Waiting for delivery',
     FOREIGN KEY (customerid) REFERENCES customers(customerid)
-);
-
-CREATE TABLE orderdetails (
-    orderdetailid SERIAL PRIMARY KEY,
-    orderid INT,
-    productid INT,
-    quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (orderid) REFERENCES orders(orderid),
-    FOREIGN KEY (productid) REFERENCES products(productid)
 );
 
 CREATE TABLE cart (
     cartid SERIAL PRIMARY KEY,
     customerid INT,
-    productid INT,
-    quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (customerid) REFERENCES customers(customerid),
-    FOREIGN KEY (productid) REFERENCES products(productid)
+    sel_product JSONB,
+    total DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (customerid) REFERENCES customers(customerid)
 );
