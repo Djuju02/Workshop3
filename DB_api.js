@@ -52,6 +52,60 @@ app.post('/products', async (req, res) => {
     }
 });
 
+app.put('/products/:id', async (req, res) => {
+    console.log('Received PUT request with body:', req.body);
+
+    const id = parseInt(req.params.id);
+    const newname = req.body.newname;
+    const newdescription = req.body.newdescription;
+    const newprice = req.body.newprice;
+    const newstock = req.body.newstock;
+
+    if (!newname ) {
+        res.status(400).json({ error: "A modification is required." });
+        return;
+    }
+
+    try {
+        const [rowsUpdated, [updateProduct]] = await Products.update(
+            { name: newname, description: newdescription, price: newprice, stockquantity: newstock },
+            {
+                returning: true,
+                where: { productid: id },
+            }
+        );
+
+        if (rowsUpdated === 0 || !updateProduct) {
+            res.status(404).json({ error: 'Package not found' });
+            return;
+        }
+
+        res.status(200).json(updateProduct);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.delete('/products/:id', async (req, res) => {
+
+    const id = req.params.id;
+    try {
+        const result = await Products.destroy({
+            where: { productid: id }
+        });
+        if (result === 0) {
+            res.status(404).json({ success: false, message: 'No matching rows found for deletion.' });
+            return;
+        }
+
+        res.status(200).json({ success: true, message: 'Product deleted successfully', result });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
