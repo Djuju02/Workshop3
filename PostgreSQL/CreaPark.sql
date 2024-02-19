@@ -27,7 +27,6 @@ CREATE TABLE orders (
     orderid SERIAL PRIMARY KEY,
     customerid INT,
     orderdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    totalamount DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (customerid) REFERENCES customers(customerid)
 );
 

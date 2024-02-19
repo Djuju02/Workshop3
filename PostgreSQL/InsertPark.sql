@@ -12,11 +12,11 @@ INSERT INTO customers (firstname, lastname, email, address, city, postalcode, co
 ('Emma', 'Johnson', 'emma.johnson@example.com', '456 Elm Street', 'Los Angeles', '90001', 'USA');
 
 
-INSERT INTO orders (customerid, totalamount) VALUES
-(1, 79.97),
-(2, 109.97),
-(3, 99.98),
-(4, 69.98);
+INSERT INTO orders (customerid) VALUES
+(1),
+(2),
+(3),
+(4);
 
 
 INSERT INTO orderdetails (orderid, productid, quantity, price) VALUES
