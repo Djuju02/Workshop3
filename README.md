@@ -9,7 +9,7 @@ https://www.kaggle.com/datasets/nelgiriyewithana/new-york-housing-market\
 
 # Part B
 
-For this part, don't forget to run "npm install" in the terminal.\
+For this part, don't forget to run *npm install* in the terminal.\
 Here are the correspondance for the name of the files and the question numbers :
 
 ## Q1 Simple Hello World Serve
@@ -17,9 +17,9 @@ Here are the correspondance for the name of the files and the question numbers :
 ## Q2 DNS Registry
 
 ## Q3 Database Implementation
-PostGreSQL folder for sql files.\
-DB_api.js for viewing all APIs to the database.\
-DB_connection.js for the setup of connection between js and postgresql.
+*PostGreSQL* folder for sql files.\
+*DB_api.js* for viewing all APIs to the database.\
+*DB_connection.js* for the setup of connection between js and postgresql.
 
 ### Database creation :
 
