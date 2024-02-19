@@ -94,9 +94,6 @@ Orders.init(
         orderdate: {
             type: DataTypes.DATE,
         },
-        totalamount: {
-            type: DataTypes.DECIMAL,
-        },
     },
     {
         sequelize,
@@ -137,6 +134,37 @@ OrderDetails.init(
     }
 );
 
+//Class Cart
+class Cart extends Model {}
+Cart.init(
+    {
+        cartid: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            allowNull: false,
+            autoIncrement: true,
+        },
+        customerid: {
+            type: DataTypes.INTEGER,
+        },
+        productid: {
+            type: DataTypes.INTEGER,
+        },
+        quantity: {
+            type: DataTypes.INTEGER,
+        },
+        price: {
+            type: DataTypes.DECIMAL(10, 2),
+        },
+    },
+    {
+        sequelize,
+        modelName: 'cart',
+        tableName: 'cart',
+        timestamps: false,
+    }
+);
+
 Customers.hasMany(Orders, { foreignKey: 'customerid' });
 Orders.belongsTo(Customers, { foreignKey: 'customerid' });
 
@@ -145,6 +173,14 @@ OrderDetails.belongsTo(Orders, { foreignKey: 'orderid' });
 
 Products.hasMany(OrderDetails, { foreignKey: 'productid' });
 OrderDetails.belongsTo(Products, { foreignKey: 'productid' });
+
+// Un Customer peut avoir plusieurs Carts
+Customers.hasMany(Cart, { foreignKey: 'customerid' });
+Cart.belongsTo(Customers, { foreignKey: 'customerid' });
+
+// Un Product peut être référencé dans plusieurs Carts
+Products.hasMany(Cart, { foreignKey: 'productid' });
+Cart.belongsTo(Products, { foreignKey: 'productid' });
 
 //Synchroniser les modèles avec la base de données
 async function syncModels() {
@@ -157,6 +193,7 @@ async function syncModels() {
         await Products.sync();
         await Orders.sync();
         await OrderDetails.sync();
+        await Cart.sync();
 
         console.log('Synchronisation réussie');
     } catch (error) {
@@ -165,4 +202,4 @@ async function syncModels() {
 }
 syncModels();
 
-module.exports = { Customers, Products, Orders, OrderDetails };
+module.exports = { Customers, Products, Orders, OrderDetails, Cart };
