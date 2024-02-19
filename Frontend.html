@@ -4,23 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-commerce Frontend</title>
+    <style>
+        /* Style de la boîte */
+        #products {
+            border: 2px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        /* Style des articles */
+        .product {
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        /* Style du titre de l'article */
+        .product-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Style du prix de l'article */
+        .product-price {
+            color: #007bff;
+        }
+    </style>
 </head>
 <body>
 <h1>E-commerce Frontend</h1>
 <div id="products"></div>
 
 <script>
-    fetch('/products')
-        .then(response => response.json())
-        .then(products => {
-            const productsDiv = document.getElementById('products');
-            products.forEach(product => {
-                const productElement = document.createElement('div');
-                productElement.textContent = `${product.name}: $${product.price}`;
-                productsDiv.appendChild(productElement);
-            });
-        })
-        .catch(error => console.error('Error fetching products:', error));
+    // Simulated product data
+    const productsData = [
+        { name: 'Product 1', price: 10 },
+        { name: 'Product 2', price: 20 },
+        { name: 'Product 3', price: 30 },
+        { name: 'Product 4', price: 40 }
+    ];
+
+    // Function to render products
+    function renderProducts(products) {
+        const productsDiv = document.getElementById('products');
+        products.forEach(product => {
+            const productElement = document.createElement('div');
+            productElement.classList.add('product');
+            productElement.innerHTML = `
+                <div class="product-name">${product.name}</div>
+                <div class="product-price">$${product.price}</div>
+            `;
+            productsDiv.appendChild(productElement);
+        });
+    }
+
+    // Render products when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        renderProducts(productsData);
+    });
 </script>
 </body>
 </html>
