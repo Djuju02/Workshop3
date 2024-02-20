@@ -36,6 +36,7 @@ For having the APIs work, run "node DB_api.js" in the terminal.
 
 ## Q4 Modify Server Implementation for API Requirements
 now the port that was used for the hello world server is used for the DB_api.js
+
 ## Q5 Simple Frontend
 
 ## Q6 Simulate Server Issue and Fix

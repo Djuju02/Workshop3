@@ -12,8 +12,10 @@ app.get('/liveness', (req, res)=> {
 });
 
 // -------------- Products Routes ---------------
+
 app.get('/products', async (req, res) => {
     try {
+        //res.status(500).send('Internal Server Error - Simulated');
         const products = await Products.findAll();
         res.status(200).json(products);
     } catch (error) {
@@ -21,6 +23,30 @@ app.get('/products', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+//API TEST D'ERREUR
+//-------------------------------------------------------------------------------------------
+/*
+app.get('/error', async (req, res) => {
+    try {
+        // Simuler une erreur en renvoyant une réponse avec un code d'erreur 500
+        res.status(500).send('Internal Server Error - Simulated');
+    } catch (error) {
+        console.error('Erreur lors de la récupération des produits:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+//-------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------
+*/
+
+
+
+
+
+
+
+
 
 app.get('/products/:id', async (req, res) => {
     const id = parseInt(req.params.id);
@@ -33,6 +59,7 @@ app.get('/products/:id', async (req, res) => {
         res.status(404).send(`Entity not found for id: ${id}`);
     }
 });
+
 
 app.post('/products', async (req, res) => {
     const { name, description, price, stockquantity } = req.body;
