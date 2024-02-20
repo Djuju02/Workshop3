@@ -30,7 +30,7 @@ We chose to make a PostgreSQL database. For that, we used pgadmin.\
 We created  user "decentralization_user" and we created a database owned by this user : "decentralization_workshop3".
 In these, we implemented our two .sql files, CreaPark and InsPark.
 
-## APIs
+### APIs
 
 For having the APIs work, run "node DB_api.js" in the terminal.
 
