@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+</head>
+<body>
+<h1>Product List</h1>
+<div id="products-list"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('http://192.168.116.1:3000/products')
+            .then(response => response.json())
+            .then(data => {
+                console.log("yea");
+                console.log(data);
+            })
+            .catch(error => {
+                // Handle any errors here
+                console.error(error);
+            });
+    });
+</script>
+</body>
+</html>
