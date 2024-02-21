@@ -43,13 +43,6 @@ app.get('/error', async (req, res) => {
 */
 
 
-
-
-
-
-
-
-
 app.get('/products/:id', async (req, res) => {
     const id = parseInt(req.params.id);
 
