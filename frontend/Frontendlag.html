@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Product List</title>
+    </head>
+    <body>
+        <h1>Product List</h1>
+        <div id="products-list"></div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                fetch('http://localhost:3000/products')
+                    .then(response => response.json())
+                    .then(data => {
+                        const productsList = document.getElementById('products-list');
+                        if (Array.isArray(data)) {
+                            data.forEach(product => {
+                                const productElement = document.createElement('div');
+                                productElement.innerHTML = `
+                                <h3>${product.name}</h3>
+                                <p>${product.description}</p>
+                                <p>Price: $${product.price}</p>
+                            `;
+                                productsList.appendChild(productElement);
+                            });
+                        } else {
+                            console.log('La réponse n\'est pas un tableau de produits.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de la récupération des produits:', error);
+                    });
+            });
+        </script>
+    </body>
+</html>

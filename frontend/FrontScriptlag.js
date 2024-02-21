@@ -1,4 +1,4 @@
-//const { fetchData } = require('./DB_api.js');
+const { fetchData } = require('../DB_api.js');
 
 async function fetchProducts() {
     try {

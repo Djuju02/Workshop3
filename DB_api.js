@@ -1,11 +1,13 @@
 const express = require('express');
 const { Customers, Products, Orders, Cart } = require("./DB_connection");
 const { Sequelize, Op } = require("sequelize");
+const cors = require('cors');
 
 const app = express();
 const PORT= 3000;
 
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 
 app.get('/liveness', (req, res)=> {
     res.status(200).send('OK');
