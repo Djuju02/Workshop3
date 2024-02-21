@@ -28,6 +28,7 @@ now, it is using port 3001.
 
 We chose to make a PostgreSQL database. For that, we used pgadmin.\
 We created  user "decentralization_user" and we created a database owned by this user : "decentralization_workshop3".
+Do not forget to add a password to the user like so "Password01"
 In these, we implemented our two .sql files, CreaPark and InsPark.
 
 ### APIs
