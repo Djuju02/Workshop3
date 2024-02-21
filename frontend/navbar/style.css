@@ -1,5 +1,5 @@
 nav {
-    background-color: #4CAF50;
+    background-color: #44705b;
     padding: 10px;
 }
 
@@ -23,5 +23,5 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    background-color: #45a049; /* Darker green background color on hover */
+    background-color: #2f4a3c; /* Darker green background color on hover */
 }
