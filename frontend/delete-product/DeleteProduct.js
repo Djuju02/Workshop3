@@ -1,12 +1,13 @@
-document.getElementById("deleteButton").addEventListener("click", async function() {
-    const productId = document.getElementById('productId').value;
+document.getElementById("deleteButton").addEventListener("click", function() {
+    const productId = document.getElementById('productID').value;
+    document.getElementById('productID').value;
 
     try {
-        const response = await fetch(`/products/${productId}`, {
+        const response = fetch(`/products/${productId}`, {
             method: 'DELETE'
         });
 
-        const responseData = await response.json();
+        const responseData = response.json();
 
         if (response.ok) {
             alert('Product deleted successfully!');

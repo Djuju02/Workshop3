@@ -9,10 +9,12 @@
 <body>
 
 <h1>Delete Product</h1>
-<label for="productId">Product ID:</label>
-<input type="text" id="productId" name="productId" required><br>
+
+<label for="productID">Product ID:</label>
+<input type="number" id="productID" name="productID" min="1" step="1" required class="input_number"><br>
+
 <button type="button" id="deleteButton">Delete Product</button>
 
-<script scr="DeleteProducts.js"></script>
+<script src="DeleteProduct.js"></script>
 </body>
 </html>
