@@ -1,0 +1,29 @@
+.input_text{
+    min-width: 750px;
+    height: 30px;
+    margin: 20px;
+}
+
+.input_number{
+    min-width: 200px;
+    height: 30px;
+    margin: 20px;
+}
+
+.body{
+    flex-direction: column;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #5f0e92;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #3d095e;
+}
