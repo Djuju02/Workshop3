@@ -1,0 +1,33 @@
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #b6b6ef;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #8f8fbc;
+}
+
+input[type="text"] {
+    width: calc(100% - 70px);
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.hidden-input {
+    display: none;
+    margin: 10px;
+}
+
+.label{
+    width: 500px;
+}

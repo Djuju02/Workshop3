@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product to Cart</title>
+    <li><a href="../navbar/navbar.html">Back to Menu</a></li>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Add Product to Cart</h1>
+
+<form id="addProductForm">
+
+    <label for="userIdSelect">Select User ID:</label>
+    <select id="userIdSelect">
+        <option value="">Select a User ID</option>
+    </select>
+    <div id="selectedUserId"></div>
+
+
+    <label for="productId">Product ID:</label>
+    <input type="number" id="productId" name="productId" min="1" required><br>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" min="1" required><br>
+
+    <button type="submit">Add to Cart</button>
+</form>
+
+<script src="AddCart.js"></script>
+</body>
+</html>

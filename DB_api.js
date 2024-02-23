@@ -342,6 +342,19 @@ app.delete('/cart/:userId/item/:productId', async (req, res) => {
     }
 });
 
+//----------User------------
+
+app.get('/userId', async (req, res) => {
+    try {
+        //res.status(500).send('Internal Server Error - Simulated');
+        const user = await Customers.findAll();
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des user:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
