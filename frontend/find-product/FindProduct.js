@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <h3>${product.name}</h3>
                                 <p>${product.description}</p>
                                 <p>Price: $${product.price}</p>
+                                <p>Stock: ${product.stockquantity}</p>
                             `;
                     productsList.appendChild(productElement);
                 });
@@ -54,6 +55,7 @@ document.getElementById("goButton").addEventListener("click", function() {
                             <h3>${data.name}</h3>
                             <p>${data.description}</p>
                             <p>Price: $${data.price}</p>
+                            <p>Stock: ${data.stockquantity}</p>
                         `;
                     message.textContent = "Le produit est : ";
 

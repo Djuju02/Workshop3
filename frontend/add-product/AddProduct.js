@@ -9,7 +9,6 @@ document.getElementById('product-form').addEventListener('submit', async (event)
 
     console.log(price);
 
-    // Perform validation
     if (name.length > 100) {
         alert('Name is too long. Maximum length is 255 characters.');
         return;
@@ -30,8 +29,7 @@ document.getElementById('product-form').addEventListener('submit', async (event)
         return;
     }
 
-    // If validation passes, make the API call
-    const response = await fetch('/products', {
+    const response = await fetch('http://localhost:3000/products', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
